@@ -1,10 +1,11 @@
 # SodiumBot Web Front-End
-Utilizing Flask, PostgreSQL, SQLAlchemy, Bootstrap
+Utilizing Flask, PostgreSQL, SQLAlchemy, Bootstrap, NoSleep.js
 
 ## To-do:
 * ~~Connect to local DB and expose existing data via SQLAlchemy~~
 * ~~Basic data output via Flask/Jinja2~~
 	* **[IN PROGRESS] Character data pages**
+	* Move CSS to separate file
 	* Add tier change history, tourn wins to index and char pages
 	* Data table construction for match data instead of strings
 	* Match data pages

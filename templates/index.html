@@ -51,6 +51,18 @@
         background-color: MintCream;
       }
     </style>
+    <script src="{{ url_for('static', filename='NoSleep.min.js') }}"></script>
+    <script>
+      var noSleep = new NoSleep();
+      window.addEventListener("touchstart", function(){enableNoSleep('touch')}, false);
+      window.addEventListener("click", function(){enableNoSleep('click')}, false);
+      function enableNoSleep(type) {
+        console.log(type);
+        noSleep.enable(); 
+        if(type=='touch')window.removeEventListener("touchstart", enableNoSleep, false);
+        if(type=='click')window.removeEventListener("click", enableNoSleep, false); 
+      } 
+    </script>
   </head>
   <body>
     <div class="container">
