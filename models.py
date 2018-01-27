@@ -42,6 +42,12 @@ class Match(db.Model):
 	winner = db.Column(db.Integer, db.ForeignKey('chars.id'))
 	winner_char = db.relationship("Char", foreign_keys=[winner])
 
+	def get_red_exp(self):
+		return round(100*(1.0 / (1.0 + pow(10, ((self.blue.elo - self.red.elo) / 400)))),2);
+
+	def get_blue_exp(self):
+		return round(100*(1.0 / (1.0 + pow(10, ((self.red.elo - self.blue.elo) / 400)))),2);
+
 #	def __init__(self, url, result_all, result_no_stop_words):
 #		self.url = url
 #		self.result_all = result_all

@@ -1,10 +1,11 @@
 # SodiumBot Web Front-End
 Utilizing Flask, PostgreSQL, SQLAlchemy
 
-##To-do:
+## To-do:
 * ~~Connect to local DB and expose existing data via SQLAlchemy~~
-* [IN PROGRESS] Basic data output via Flask/Jinja2
+* ~~Basic data output via Flask/Jinja2~~
 * Create lower-privileged user for data consumption
-* Live updating
+* Live updating: AJAX not auto-refresh
 * Live console feed from bot
+* Extract remote char id for image
 * Determine how to migrate/stage data in heroku/across dev machines (sample extract?)

@@ -2,29 +2,84 @@
 <html>
   <head>
     <title>SodiumBot</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="refresh" content="5" />
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen" />
     <style>
+
+      html { height:100vh; }
+      body { height:100vh; }
+      h2 {
+        text-align: center;
+      }
       .container {
-        max-width: 1000px;
+        /* max-width: 1000px; */
+      }
+      .redarea {
+        background-color: Tomato;
+        font-weight: bold;
+        text-align: center;
+        font-size: 14pt;
+        height: calc(100vh - 63px);
+      }
+      .row-eq-height {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display:         flex;
+      }        
+      .bluearea {
+        background-color: DodgerBlue;
+        font-weight: bold;
+        text-align: center;
+        font-size: 14pt;
+        height: calc(100vh - 63px);
+      }
+      .middlearea {
+        font-weight: bold;
+        text-align: center;
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <h1>SodiumBot</h1>
-      <!--<form role="form" method='POST' action='/'>
-        <div class="form-group">
-          <input type="text" name="url" class="form-control" id="url-box" placeholder="Enter URL..." style="max-width: 300px;" autofocus required>
+      <div class="row"><h2>SodiumBot</h2></div>
+      <div class="row row-eq-height">
+        <div class="col-xs-5 redarea">
+          <h1>{{ red.name }}</h1><br />
+          <h2>ELO: {{ red.elo }}<br />
+          {{ match.get_red_exp() }}%</h2>
+          <br />
+          <span style="font-size: 24pt;">{{ red.wins }}-{{ red.losses }}</span><br /><span style="font-size: 10pt;">({{ red.wins+red.losses }} matches logged)</span><br />
+          <br />  
+          ${{ match.red_money }}<br /><br />
+          <u>Streak: {{ red.streak }}</u><br />
+          {% for match in red_last5 %}
+            <h4 style="margin-bottom: -8px;"><i>{{ match.outcome }}</i> vs. {{ match.opponent }}</h4><span style="font-size: 10pt;font-weight: normal;font-style: italic;">{{ match.time }}</span>
+          {% endfor %}
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form> -->
-      <br>
-      {% for result in results %}
-        <h3>{{ result }}</h3>
-      {% endfor %}
+        <div class="col-xs-2 middlearea">
+          <br /><br />
+          vs.<br /><br /><br /><br /><br />
+          <-----><br /><br /><br /><br /><br />
+          {{ match.tier.replace(" ","") }} TIER
+        </div>
+        <div class="col-xs-5 bluearea">
+          <h1>{{ blue.name }}</h1><br />
+          <h2>ELO: {{ blue.elo }}<br />
+          {{ match.get_blue_exp() }}%</h2>
+          <br />
+          <span style="font-size: 24pt;">{{ blue.wins }}-{{ blue.losses }}</span><br /><span style="font-size: 10pt;">({{ blue.wins+blue.losses }} matches logged)</span><br />
+          <br />
+          ${{ match.blue_money }}<br /><br />
+          <u>Streak: {{ blue.streak }}</u><br />
+          {% for match in blue_last5 %}
+            <h4 style="margin-bottom: -8px;"><i>{{ match.outcome }}</i> vs. {{ match.opponent }}</h4><span style="font-size: 10pt;font-weight: normal;font-style: italic;">{{ match.time }}</span>
+          {% endfor %}
+        </div>
+      </div>
       {% for error in errors %}
-        <h4>{{ error }}</h4>
+        <div class="alert alert-danger">{{ error }}</div>
       {% endfor %}
     </div>
     <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
