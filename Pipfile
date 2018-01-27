@@ -1,0 +1,34 @@
+[[source]]
+
+url = "https://pypi.python.org/simple"
+name = "pypi"
+verify_ssl = true
+
+
+[packages]
+
+alembic = "*"
+certifi = "*"
+chardet = "*"
+click = "*"
+flask = "*"
+flask-migrate = "*"
+flask-script = "*"
+flask-sqlalchemy = "*"
+gunicorn = "*"
+idna = "*"
+itsdangerous = "*"
+"jinja2" = "*"
+mako = "*"
+markupsafe = "*"
+"psycopg2" = "*"
+python-dateutil = "*"
+python-editor = "*"
+requests = "*"
+sqlalchemy = "*"
+"urllib3" = "*"
+werkzeug = "*"
+
+
+[dev-packages]
+
