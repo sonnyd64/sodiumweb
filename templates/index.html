@@ -8,7 +8,13 @@
     <style>
 
       html { height:100vh; }
-      body { height:100vh; }
+      body {
+        height:100vh;
+        background-color: #282828;
+      }
+      a {
+        color: black;
+      }
       h2 {
         text-align: center;
       }
@@ -16,7 +22,8 @@
         /* max-width: 1000px; */
       }
       .redarea {
-        background-color: Tomato;
+        border-left: 16px solid Tomato;
+        background-color: LightPink;
         font-weight: bold;
         text-align: center;
         font-size: 14pt;
@@ -29,7 +36,8 @@
         display:         flex;
       }        
       .bluearea {
-        background-color: DodgerBlue;
+        border-right: 16px solid DodgerBlue;
+        background-color: PowderBlue;
         font-weight: bold;
         text-align: center;
         font-size: 14pt;
@@ -39,14 +47,20 @@
         font-weight: bold;
         text-align: center;
       }
+      .otherarea {
+        background-color: MintCream;
+      }
     </style>
   </head>
   <body>
     <div class="container">
-      <div class="row"><h2>SodiumBot</h2></div>
+      {% for error in errors %}
+        <div class="alert alert-danger">{{ error }}</div>
+      {% endfor %}
+      <div class="row otherarea"><h2>SodiumBot</h2></div>
       <div class="row row-eq-height">
         <div class="col-xs-5 redarea">
-          <h1>{{ red.name }}</h1><br />
+          <h1><a href="/char/{{ red.id }}">{{ red.name }}</h1></a><br />
           <h2>ELO: {{ red.elo }}<br />
           {{ match.get_red_exp() }}%</h2>
           <br />
@@ -58,14 +72,14 @@
             <h4 style="margin-bottom: -8px;"><i>{{ match.outcome }}</i> vs. {{ match.opponent }}</h4><span style="font-size: 10pt;font-weight: normal;font-style: italic;">{{ match.time }}</span>
           {% endfor %}
         </div>
-        <div class="col-xs-2 middlearea">
-          <br /><br />
+        <div class="col-xs-2 middlearea otherarea">
+          <br /><br /><br /><br />
           vs.<br /><br /><br /><br /><br />
           <-----><br /><br /><br /><br /><br />
           {{ match.tier.replace(" ","") }} TIER
         </div>
         <div class="col-xs-5 bluearea">
-          <h1>{{ blue.name }}</h1><br />
+          <h1><a href="/char/{{ blue.id }}">{{ blue.name }}</a></h1><br />
           <h2>ELO: {{ blue.elo }}<br />
           {{ match.get_blue_exp() }}%</h2>
           <br />
@@ -78,9 +92,6 @@
           {% endfor %}
         </div>
       </div>
-      {% for error in errors %}
-        <div class="alert alert-danger">{{ error }}</div>
-      {% endfor %}
     </div>
     <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>

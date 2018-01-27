@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SodiumBot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+    <style>
+
+      html { height:100vh; }
+      body {
+        height:100vh;
+        background-color: #282828;
+      }
+      a {
+        color: black;
+      }
+      h2   {
+        text-align: center;
+      }
+      .container {
+        /* max-width: 1000px; */
+      }
+      .row-eq-height {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display:         flex;
+      }        
+      .otherarea {
+        background-color: MintCream;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      {% for error in errors %}
+        <div class="alert alert-danger">{{ error }}</div>
+      {% endfor %}
+
+      <div class="row otherarea">
+        <div class="col-xs-1" style="padding-top: 10px;">
+          <a href="../"><span class="glyphicon glyphicon-home" aria-hidden=true style="font-size: 250%;"></span></a>
+        </div>
+        <div class="col-xs-11">
+          <h2>{{ char.name }}</h2>
+        </div>
+      </div>
+      <div class="row otherarea">
+        {% for match in results %}
+        <h4 style="margin-bottom: -2px;"><i>{{ match.outcome }}</i> vs. {{ match.opponent }}</h4><span style="font-size: 10pt;font-weight: normal;font-style: italic;">{{ match.time }}</span>
+        {% endfor %}
+      </div>
+    </div>
+    <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  </body>
+</html>
