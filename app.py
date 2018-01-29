@@ -18,8 +18,8 @@ from models import *
 def index():
 	errors = []
 	results = []
-	red_last5 = []
-	blue_last5 = []
+	red_last = []
+	blue_last = []
 	try:
 		latest = db.session.query(Match).order_by(Match.id.desc()).first()
 		red_last = last_matches(latest.red, 20)

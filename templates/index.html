@@ -98,7 +98,7 @@
                 {% endif %}
               </td>
               <td>{{ match.opponent_elo }}</td>
-              <td>{{ match.opponent.tier }}</td>
+              <td>{{ match.tier }}</td>
               <td><a href="/char/{{ match.opponent.id }}">{{ match.opponent.name }}</a></td>
               <td><span style="font-size: 10pt;font-weight: normal;font-style: italic;">{{ match.time }}</span></td>
             </tr>
@@ -145,7 +145,7 @@
                 {% endif %}
               </td>
               <td>{{ match.opponent_elo }}</td>
-              <td>{{ match.opponent.tier }}</td>
+              <td>{{ match.tier }}</td>
               <td><a href="/char/{{ match.opponent.id }}">{{ match.opponent.name }}</a></td>
               <td><span style="font-size: 10pt;font-weight: normal;font-style: italic;">{{ match.time }}</span></td>
             </tr>
@@ -155,12 +155,12 @@
       </div>
     </div>
     <script>
-      if ('scrollRestoration' in history) {
-        history.scrollRestoration = 'manual';
-      }     
-      $(document).ready(function(){
-        $(this).scrollTop(45);
-      });
+      //if ('scrollRestoration' in history) {
+      //  history.scrollRestoration = 'manual';
+      //}     
+      //$(document).ready(function(){
+      //  $(this).scrollTop(45);
+      //});
     </script>
 
   </body>

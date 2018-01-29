@@ -10,6 +10,7 @@ def last_matches(char, x=None):
 	for match in last_stg:
 		outcome = "?"
 		upset = match.upset
+		tier = match.tier
 		outcome = "W" if match.winner_char == char else "L"
 		odds = match.odds(char)
 		if match.red == char:
@@ -19,5 +20,5 @@ def last_matches(char, x=None):
 			opponent_elo =  str(match.red.elo)
 			opponent = match.red
 		time = str(match.timestamp)[0:16]
-		last5.append({'outcome': outcome, 'opponent_elo': opponent_elo, 'opponent': opponent, 'time': time, "odds": odds, "upset": upset})
+		last5.append({'outcome': outcome, 'opponent_elo': opponent_elo, 'opponent': opponent, 'time': time, 'tier': tier, "odds": odds, "upset": upset})
 	return last5

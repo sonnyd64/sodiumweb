@@ -63,6 +63,8 @@ class Match(db.Model):
 			return False;
 
 	def odds(self, char):
+		if self.red_money == 0: self.red_money = 1
+		if self.blue_money == 0: self.blue_money = 1
 		if char == self.red:
 			odds = self.red_money / self.blue_money
 			if self.red_money > self.blue_money:
