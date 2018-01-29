@@ -9,8 +9,15 @@ def last_matches(char, x=None):
 	last_stg = db.session.query(Match).filter(db.or_(Match.red == char, Match.blue == char)).filter(Match.winner != None).order_by(Match.id.desc())[0:x]
 	for match in last_stg:
 		outcome = "?"
-		outcome = "Won" if match.winner_char == char else "Lost"
-		opponent = match.blue.name + " [" + match.blue.tier.replace(" ","") + ":" + str(match.blue.elo) + "]" if match.red == char else match.red.name + " [" + match.red.tier.replace(" ","") + ":" + str(match.red.elo) + "]"
-		time = str(match.timestamp)[0:19]
-		last5.append({'outcome': outcome, 'opponent': opponent, 'time': time})
+		upset = match.upset
+		outcome = "W" if match.winner_char == char else "L"
+		odds = match.odds(char)
+		if match.red == char:
+			opponent_elo = str(match.blue.elo)
+			opponent = match.blue
+		else:
+			opponent_elo =  str(match.red.elo)
+			opponent = match.red
+		time = str(match.timestamp)[0:16]
+		last5.append({'outcome': outcome, 'opponent_elo': opponent_elo, 'opponent': opponent, 'time': time, "odds": odds, "upset": upset})
 	return last5

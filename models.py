@@ -6,7 +6,7 @@ class Char(db.Model):
 	team = "?"
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String())
-	tier = db.Column(db.CHAR(3))
+	_tier = db.Column("tier", db.CHAR(3))
 	streak = db.Column(db.Integer)
 	wins = db.Column(db.Integer)
 	losses = db.Column(db.Integer)
@@ -16,10 +16,13 @@ class Char(db.Model):
 	last_match_id = db.Column(db.Integer, db.ForeignKey('matches.id'))
 	last_match = db.relationship("Match",  foreign_keys=[last_match_id])
 
-#	def __init__(self, url, result_all, result_no_stop_words):
-#		self.url = url
-#		self.result_all = result_all
-#		self.result_no_stop_words = result_no_stop_words
+	@property
+	def tier(self):
+		return self._tier.replace(" ","")
+
+	@tier.setter
+	def tier(self, tier):
+		self._tier = str(tier)
 
 	def __repr__(self):
 		return '<id {} - {}>'.format(self.id, self.name)
@@ -47,6 +50,33 @@ class Match(db.Model):
 
 	def get_blue_exp(self):
 		return round(100*(1.0 / (1.0 + pow(10, ((self.red.elo - self.blue.elo) / 400)))),2);
+
+	@property
+	def upset(self):
+		if self.winner_char == self.red:
+			if self.red_money > self.blue_money: return False
+			if self.red_money < self.blue_money: return True
+		elif self.winner_char == self.blue:
+			if self.red_money < self.blue_money: return False
+			if self.red_money > self.blue_money: return True
+		else:
+			return False;
+
+	def odds(self, char):
+		if char == self.red:
+			odds = self.red_money / self.blue_money
+			if self.red_money > self.blue_money:
+				return "{:.1f} : 1".format(odds)
+			if self.red_money <= self.blue_money:
+				return "1 : {:.1f}".format(1/odds)
+		elif char == self.blue:
+			odds = self.blue_money / self.red_money
+			if self.red_money <= self.blue_money:
+				return "{:.1f} : 1".format(odds)
+			if self.red_money > self.blue_money:
+				return "1 : {:.1f}".format(1/odds)
+		else:
+			return False;
 
 #	def __init__(self, url, result_all, result_no_stop_words):
 #		self.url = url

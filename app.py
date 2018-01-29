@@ -22,12 +22,12 @@ def index():
 	blue_last5 = []
 	try:
 		latest = db.session.query(Match).order_by(Match.id.desc()).first()
-		red_last5 = last_matches(latest.red, 5)
-		blue_last5 = last_matches(latest.blue, 5)
+		red_last = last_matches(latest.red, 20)
+		blue_last = last_matches(latest.blue, 20)
 	except:
 		if TESTING or DEBUG: print(sys.exc_info())
 		errors.append("Unable to query database.")
-	return render_template('index.html', errors=errors, red=latest.red, blue=latest.blue, match=latest, red_last5=red_last5, blue_last5=blue_last5)
+	return render_template('index.html', errors=errors, red=latest.red, blue=latest.blue, match=latest, red_last_matches=red_last, blue_last_matches=blue_last)
 
 @app.route('/char/<id>', methods=['GET', 'POST'])
 def char_view(id):

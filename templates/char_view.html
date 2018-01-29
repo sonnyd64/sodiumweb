@@ -3,7 +3,11 @@
   <head>
     <title>SodiumBot</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://use.fontawesome.com/90fc7d2bc0.js"></script>
     <style>
 
       html { height:100vh; }
@@ -40,19 +44,43 @@
 
       <div class="row otherarea">
         <div class="col-xs-1" style="padding-top: 10px;">
-          <a href="../"><span class="glyphicon glyphicon-home" aria-hidden=true style="font-size: 250%;"></span></a>
+          <a href="../"><i class="fa fa-home" aria-hidden="true" style="font-size: 250%;"></i></a>
         </div>
-        <div class="col-xs-11">
-          <h2>{{ char.name }}</h2>
+        <div class="col" style="margin-bottom: -20px;">
+          <h2><b>{{ char.name }}</b><br />
+          <i style="font-size: 75%;">{{ char.tier }} Tier [{{ char.elo }} ELO]</i></h2>
         </div>
       </div>
       <div class="row otherarea">
+        <table class="table table-sm">
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">ELO</th>
+            <th scope="col">Tier</th>
+            <th scope="col">Name</th>
+            <th scope="col">Odds</th>
+            <th scope="col">Time</th>
+          </tr>
         {% for match in results %}
-        <h4 style="margin-bottom: -2px;"><i>{{ match.outcome }}</i> vs. {{ match.opponent }}</h4><span style="font-size: 10pt;font-weight: normal;font-style: italic;">{{ match.time }}</span>
+        {% if match.outcome == "W" %}
+          <tr class="table-success">
+        {% else %}            
+          <tr>
+        {% endif %}
+            <th scope="row">{{ match.outcome }}</th>
+            <td>{{ match.opponent_elo }}</td>
+            <td>{{ match.opponent.tier }}</td>
+            <td><a href="/char/{{ match.opponent.id }}">{{ match.opponent.name }}</a></td>
+            {% if match.upset == True %}
+            <td class="bg-warning">{{ match.odds }} <span style="float: right;"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span></td>
+            {% else %}
+            <td>{{ match.odds }}</td>
+            {% endif %}
+            <td><span style="font-weight: normal;font-style: italic;">{{ match.time }}</span></td>
+          </tr>
         {% endfor %}
+        </table>
       </div>
     </div>
-    <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   </body>
 </html>

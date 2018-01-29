@@ -4,19 +4,25 @@
     <title>SodiumBot</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="refresh" content="5" />
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://use.fontawesome.com/90fc7d2bc0.js"></script>
     <style>
 
-      html { height:100vh; }
       body {
-        height:100vh;
         background-color: #282828;
       }
       a {
         color: black;
       }
-      h2 {
+      th {
+        font-size: 12pt;
         text-align: center;
+      }
+      td {
+        font-size: 10pt;
       }
       .container {
         /* max-width: 1000px; */
@@ -24,24 +30,12 @@
       .redarea {
         border-left: 16px solid Tomato;
         background-color: LightPink;
-        font-weight: bold;
         text-align: center;
-        font-size: 14pt;
-        height: calc(100vh - 63px);
-      }
-      .row-eq-height {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display:         flex;
-      }        
+      }     
       .bluearea {
         border-right: 16px solid DodgerBlue;
         background-color: PowderBlue;
-        font-weight: bold;
         text-align: center;
-        font-size: 14pt;
-        height: calc(100vh - 63px);
       }
       .middlearea {
         font-weight: bold;
@@ -49,6 +43,7 @@
       }
       .otherarea {
         background-color: MintCream;
+        text-align: center;
       }
     </style>
     <script src="{{ url_for('static', filename='NoSleep.min.js') }}"></script>
@@ -69,43 +64,97 @@
       {% for error in errors %}
         <div class="alert alert-danger">{{ error }}</div>
       {% endfor %}
-      <div class="row otherarea"><h2>SodiumBot</h2></div>
-      <div class="row row-eq-height">
-        <div class="col-xs-5 redarea">
-          <h1><a href="/char/{{ red.id }}">{{ red.name }}</h1></a><br />
-          <h2>ELO: {{ red.elo }}<br />
-          {{ match.get_red_exp() }}%</h2>
-          <br />
-          <span style="font-size: 24pt;">{{ red.wins }}-{{ red.losses }}</span><br /><span style="font-size: 10pt;">({{ red.wins+red.losses }} matches logged)</span><br />
-          <br />  
-          ${{ match.red_money }}<br /><br />
-          <u>Streak: {{ red.streak }}</u><br />
-          {% for match in red_last5 %}
-            <h4 style="margin-bottom: -8px;"><i>{{ match.outcome }}</i> vs. {{ match.opponent }}</h4><span style="font-size: 10pt;font-weight: normal;font-style: italic;">{{ match.time }}</span>
-          {% endfor %}
+      <div class="row otherarea"><div class="col"><h2>SodiumBot</h2></div></div>
+      <div class="row">
+        <div class="col redarea">
+          <div style="font-size: 14pt;">
+            <h1><a href="/char/{{ red.id }}">{{ red.name }}</h1></a><br />
+            <h2>ELO: {{ red.elo }}<br />
+            {{ match.get_red_exp() }}%</h2>
+            <br />
+            <span style="font-size: 24pt;">{{ red.wins }}-{{ red.losses }}</span><br /><span style="font-size: 10pt;">({{ red.wins+red.losses }} matches logged)</span><br />
+            <br />  
+            ${{ match.red_money }}<br /><br />
+            <b><u>Streak: {{ red.streak }}</u></b><br />
+          </div>
+          <table class="table table-sm">
+            <tr>
+              <th scope="col"></th>
+              <th scope="col"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></th>
+              <th scope="col">ELO</th>
+              <th scope="col">Tier</th>
+              <th scope="col">Name</th>
+              <th scope="col">Time</th>
+            </tr>
+            {% for match in red_last_matches %}
+            {% if match.outcome == "W" %}
+            <tr class="table-success">
+            {% else %}            
+            <tr>
+            {% endif %}
+              <th scope="row">{{ match.outcome }}</th>
+              <td>
+                {% if match.upset == True %}
+                <i class="fa fa-exclamation-triangle" aria-hidden="true" title="{{ match.odds }}"></i>
+                {% endif %}
+              </td>
+              <td>{{ match.opponent_elo }}</td>
+              <td>{{ match.opponent.tier }}</td>
+              <td><a href="/char/{{ match.opponent.id }}">{{ match.opponent.name }}</a></td>
+              <td><span style="font-size: 10pt;font-weight: normal;font-style: italic;">{{ match.time }}</span></td>
+            </tr>
+            {% endfor %}
+          </table>
         </div>
-        <div class="col-xs-2 middlearea otherarea">
+
+        <div class="col-sm-1 middlearea otherarea">
           <br /><br /><br /><br />
           vs.<br /><br /><br /><br /><br />
           <-----><br /><br /><br /><br /><br />
           {{ match.tier.replace(" ","") }} TIER
         </div>
-        <div class="col-xs-5 bluearea">
-          <h1><a href="/char/{{ blue.id }}">{{ blue.name }}</a></h1><br />
-          <h2>ELO: {{ blue.elo }}<br />
-          {{ match.get_blue_exp() }}%</h2>
-          <br />
-          <span style="font-size: 24pt;">{{ blue.wins }}-{{ blue.losses }}</span><br /><span style="font-size: 10pt;">({{ blue.wins+blue.losses }} matches logged)</span><br />
-          <br />
-          ${{ match.blue_money }}<br /><br />
-          <u>Streak: {{ blue.streak }}</u><br />
-          {% for match in blue_last5 %}
-            <h4 style="margin-bottom: -8px;"><i>{{ match.outcome }}</i> vs. {{ match.opponent }}</h4><span style="font-size: 10pt;font-weight: normal;font-style: italic;">{{ match.time }}</span>
-          {% endfor %}
+
+        <div class="col bluearea">          
+          <div style="font-size: 14pt;">
+            <h1><a href="/char/{{ blue.id }}">{{ blue.name }}</a></h1><br />
+            <h2>ELO: {{ blue.elo }}<br />
+            {{ match.get_blue_exp() }}%</h2>
+            <br />
+            <span style="font-size: 24pt;">{{ blue.wins }}-{{ blue.losses }}</span><br /><span style="font-size: 10pt;">({{ blue.wins+blue.losses }} matches logged)</span><br />
+            <br />
+            ${{ match.blue_money }}<br /><br />
+            <b><u>Streak: {{ blue.streak }}</u></b><br />
+          </div>
+          <table class="table table-sm">
+            <tr>
+              <th scope="col"></th>
+              <th scope="col"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></th>
+              <th scope="col">ELO</th>
+              <th scope="col">Tier</th>
+              <th scope="col">Name</th>
+              <th scope="col">Time</th>
+            </tr>
+            {% for match in blue_last_matches %}
+            {% if match.outcome == "W" %}
+            <tr class="table-success">
+            {% else %}            
+            <tr>
+            {% endif %}
+              <th scope="row">{{ match.outcome }}</th>
+              <td>
+                {% if match.upset == True %}
+                <i class="fa fa-exclamation-triangle" aria-hidden="true" title="{{ match.odds }}"></i>
+                {% endif %}
+              </td>
+              <td>{{ match.opponent_elo }}</td>
+              <td>{{ match.opponent.tier }}</td>
+              <td><a href="/char/{{ match.opponent.id }}">{{ match.opponent.name }}</a></td>
+              <td><span style="font-size: 10pt;font-weight: normal;font-style: italic;">{{ match.time }}</span></td>
+            </tr>
+            {% endfor %}
+          </table>
         </div>
       </div>
     </div>
-    <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   </body>
 </html>
