@@ -4,12 +4,12 @@ Utilizing Flask, PostgreSQL, SQLAlchemy, Bootstrap, NoSleep.js, FontAwesome
 ## To-do:
 * ~~Connect to local DB and expose existing data via SQLAlchemy~~
 * ~~Basic data output via Flask/Jinja2~~
-	* **[IN PROGRESS] Character data pages**
-	* Move CSS to separate file
+	* ~~Character data pages~~
 	* Add tier change history, tourn wins to index and char pages
 	* Alert for prior matchups
+	* Move CSS to separate file
 	* ~~Data table construction for match data instead of strings~~
-	* Match data pages
+	* Match data pages (bettor/bet info, char data)
 * Note writing functionality
 * Create lower-privileged user for data consumption
 * Live updating: AJAX not auto-refresh

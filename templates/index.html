@@ -59,7 +59,7 @@
       } 
     </script>
   </head>
-  <body>
+  <body onload="ScrollToTarget()">
     <div class="container">
       {% for error in errors %}
         <div class="alert alert-danger">{{ error }}</div>
@@ -68,12 +68,11 @@
       <div class="row">
         <div class="col redarea">
           <div style="font-size: 14pt;">
-            <h1><a href="/char/{{ red.id }}">{{ red.name }}</h1></a><br />
+            <h1><a href="/char/{{ red.id }}">{{ red.name }}</h1></a>
             <h2>ELO: {{ red.elo }}<br />
             {{ match.get_red_exp() }}%</h2>
             <br />
-            <span style="font-size: 24pt;">{{ red.wins }}-{{ red.losses }}</span><br /><span style="font-size: 10pt;">({{ red.wins+red.losses }} matches logged)</span><br />
-            <br />  
+            <div style="margin-bottom: -15px;"><span style="font-size: 24pt;">{{ red.wins }}-{{ red.losses }}</span></div><span style="font-size: 10pt;">({{ red.wins+red.losses }} matches logged)</span><br />
             ${{ match.red_money }}<br /><br />
             <b><u>Streak: {{ red.streak }}</u></b><br />
           </div>
@@ -116,12 +115,11 @@
 
         <div class="col bluearea">          
           <div style="font-size: 14pt;">
-            <h1><a href="/char/{{ blue.id }}">{{ blue.name }}</a></h1><br />
+            <h1><a href="/char/{{ blue.id }}">{{ blue.name }}</a></h1>
             <h2>ELO: {{ blue.elo }}<br />
             {{ match.get_blue_exp() }}%</h2>
             <br />
-            <span style="font-size: 24pt;">{{ blue.wins }}-{{ blue.losses }}</span><br /><span style="font-size: 10pt;">({{ blue.wins+blue.losses }} matches logged)</span><br />
-            <br />
+            <div style="margin-bottom: -15px;"><span style="font-size: 24pt;">{{ blue.wins }}-{{ blue.losses }}</span></div><span style="font-size: 10pt;">({{ blue.wins+blue.losses }} matches logged)</span><br />
             ${{ match.blue_money }}<br /><br />
             <b><u>Streak: {{ blue.streak }}</u></b><br />
           </div>
@@ -156,5 +154,14 @@
         </div>
       </div>
     </div>
+    <script>
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }     
+      $(document).ready(function(){
+        $(this).scrollTop(45);
+      });
+    </script>
+
   </body>
 </html>
