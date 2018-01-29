@@ -1,5 +1,5 @@
 # SodiumBot Web Front-End
-Utilizing Flask, PostgreSQL, SQLAlchemy, Bootstrap, NoSleep.js, FontAwesome
+Utilizing Flask, PostgreSQL, SQLAlchemy, Bootstrap, NoSleep.js, FontAwesome, Jailer (for dev/test DB subsets)
 
 ## To-do:
 * ~~Connect to local DB and expose existing data via SQLAlchemy~~
