@@ -5,7 +5,8 @@ from models import *
 # 	Function to pull x-number of recent *completed* matches by a character
 #	If x=blank, will pull all matches in DB
 def last_matches(char, x=None):
-	last5 = []
+	matches = []
+	success = False
 	last_stg = db.session.query(Match).filter(db.or_(Match.red == char, Match.blue == char)).filter(Match.winner != None).order_by(Match.id.desc())[0:x]
 	for match in last_stg:
 		outcome = "?"
@@ -20,5 +21,9 @@ def last_matches(char, x=None):
 			opponent_elo =  str(match.red.elo)
 			opponent = match.red
 		time = str(match.timestamp)[0:16]
-		last5.append({'outcome': outcome, 'opponent_elo': opponent_elo, 'opponent': opponent, 'time': time, 'tier': tier, "odds": odds, "upset": upset})
-	return last5
+		matches.append({'outcome': outcome, 'opponent_elo': opponent_elo, 'opponent': opponent, 'time': time, 'tier': tier, "odds": odds, "upset": upset})
+
+	# Pass back success = False if fewer than requested rows were returned
+	if len(matches) == x: success = True
+	if x == None: success = True
+	return [matches, success]

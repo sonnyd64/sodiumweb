@@ -10,7 +10,9 @@ Utilizing Flask, PostgreSQL, SQLAlchemy, Bootstrap, NoSleep.js, FontAwesome, Jai
 	* Move CSS to separate file
 	* ~~Data table construction for match data instead of strings~~
 	* Match data pages (bettor/bet info, char data)
+* **[IN PROGRESS] Unit testing (Look into Flask-Testing for Flask-SQLAlchemy)**
 * Note writing functionality
+	* Add note field to chars
 * Create lower-privileged user for data consumption
 * Live updating: AJAX not auto-refresh
 * Live console feed from bot

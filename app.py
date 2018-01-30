@@ -1,5 +1,4 @@
 import os, sys, datetime
-from helpers import *
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.dialects import postgresql
@@ -11,7 +10,7 @@ DEBUG = app.config['DEBUG']
 TESTING = app.config['TESTING']
 db = SQLAlchemy(app)
 
-
+from helpers import *
 from models import *
 
 @app.route('/', methods=['GET', 'POST'])
@@ -22,8 +21,8 @@ def index():
 	blue_last = []
 	try:
 		latest = db.session.query(Match).order_by(Match.id.desc()).first()
-		red_last = last_matches(latest.red, 20)
-		blue_last = last_matches(latest.blue, 20)
+		red_last = last_matches(latest.red, 20)[0]
+		blue_last = last_matches(latest.blue, 20)[0]
 	except:
 		if TESTING or DEBUG: print(sys.exc_info())
 		errors.append("Unable to query database.")
@@ -36,7 +35,7 @@ def char_view(id):
 	try:
 		latest = db.session.query(Match).order_by(Match.id.desc()).first()
 		char = db.session.query(Char).filter(Char.id == id).one_or_none()
-		results = last_matches(char)
+		results = last_matches(char)[0]
 	except:
 		if TESTING or DEBUG: print(sys.exc_info())
 		errors.append("Unable to query database.")

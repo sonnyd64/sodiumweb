@@ -28,6 +28,7 @@ requests = "*"
 sqlalchemy = "*"
 "urllib3" = "*"
 werkzeug = "*"
+flask-testing = "*"
 
 
 [dev-packages]
