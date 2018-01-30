@@ -22,7 +22,8 @@ var/
 .installed.cfg
 *.egg
 *.env
-*.sql
+schema_backup.sql
+dev-test.sql
 
 # Installer logs
 pip-log.txt
