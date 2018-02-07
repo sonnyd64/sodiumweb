@@ -7,6 +7,7 @@ from models import *
 def last_matches(char, x=None, db=db):
 	matches = []
 	success = False
+	last_stg = db.session.query(Match).filter(db.or_(Match.red == char, Match.blue == char)).filter(Match.winner != None).order_by(Match.id.desc())[0:x]
 	for match in last_stg:
 		outcome = "?"
 		upset = match.upset

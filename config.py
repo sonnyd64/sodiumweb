@@ -6,6 +6,7 @@ class Config(object):
 	TESTING = False
 	CSRF_ENABLED = True
 	SECRET_KEY = 'mr-belvedere'
+	# Was this causing the issue where helper functions would default to the real DB instead of test_helper.py's DB?
 	SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 
 class ProductionConfig(Config):
@@ -18,6 +19,7 @@ class StagingConfig(Config):
 class TestingConfig(Config):
 	TESTING = True
 	DEBUG = True
+	SQLALCHEMY_DATABASE_URI = "sqlite://:memory:"
 
 class DevelopmentConfig(Config):
 	TESTING = True
