@@ -73,8 +73,7 @@ class TestLastMatches(unittest.TestCase):
 		test_char_25 = self.db.session.query(Char).get(4)
 
 	def tearDown(self):
-		print("Deleting mock db!")
-		self.db = None
+		self.db.session.close()
 
 	# Test integrity of matches returned
 	def test_prior_match_format(self):
@@ -91,36 +90,38 @@ class TestLastMatches(unittest.TestCase):
 	def test_prior_matches_specific_count(self):
 		# Compare "x" against count of what's returned, confirm success = True
 		# !!! NEED TO FINISH !!!
-		output = last_matches(test_char_25,5)
-		self.assertEqual(1,1)
+		output = last_matches(test_char_25,5,self.db)[0]
+		self.assertEqual(len(output),5)
 
 	# Test last matches w/ specified # and too few in resultset
 	def test_prior_matches_specific_count(self):
 		# Compare "x" greater than count of what's returned, confirm success = False
 		# !!! NEED TO FINISH !!!
-		output = last_matches(test_char_1,5)
-		self.assertEqual(1,1)
+		output = last_matches(test_char_1,5,self.db)
+		self.assertEqual(output[1],False)
+		output = output[0]
+		self.assertEqual(len(output),1)
 
 	# Test last matches w/o specificed #
 	def test_prior_matches_return_all(self):
 		# Compare result of COUNT(*) on DB query against count of what's returned
 		# !!! NEED TO FINISH !!!
-		output = last_matches(test_char_25)
-		self.assertEqual(1,1)
+		output = last_matches(test_char_25,None,self.db)[0]
+		self.assertEqual(len(output),25)
 
 	# Negative test w/ invalid char
 	def test_prior_matches_no_char(self):
 		with self.assertRaises(AttributeError):
-			last_matches(42, 1)
+			last_matches(42, 1,self.db)
 
 	# Negative test w/ None for char
 	def test_prior_matches_nonint_count(self):
-		self.assertEqual(last_matches(None),[[],True])
+		self.assertEqual(last_matches(None,1,self.db),[[],True])
 
 	# Negative test w/ non-integer and non-None 2nd arg
 	def test_prior_matches_nonint_count(self):
 		with self.assertRaises(TypeError):
-			last_matches(test_char, "x")
+			last_matches(test_char, "x",self.db)
 
 if __name__ == '__main__':
 	unittest.main()
